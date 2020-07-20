@@ -4,11 +4,17 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import User
+from .models import User, Item
+
 
 
 def index(request):
-    return render(request, "auctions/index.html")
+    context = {}
+    items = Item.objects.all()
+    context['items'] = items
+    n=counter()
+    context['n'] = n
+    return render(request, "auctions/index.html", context)
 
 
 def login_view(request):
