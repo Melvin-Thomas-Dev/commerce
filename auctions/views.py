@@ -12,10 +12,18 @@ def index(request):
     context = {}
     items = Item.objects.all()
     context['items'] = items
-    n=counter()
-    context['n'] = n
     return render(request, "auctions/index.html", context)
 
+def detail_view(request, pk):
+    context = {}
+    try:
+        item = Item.objects.get(pk=pk)
+        context['item'] = item
+    except Item.DoesNotExist:
+        context['error'] = "The listing does not exist"
+
+    return render(request, "auctions/detail.html", context)
+    
 
 def login_view(request):
     if request.method == "POST":
