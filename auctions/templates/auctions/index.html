@@ -4,10 +4,12 @@
     <h2>Active Listings</h2>
 
         {% for item in items %}
-        <a href="{% url 'detail' item.pk %}"> <div class="media" style="color: black; width: 80%; margin-left: 10%; margin-right: 10%; margin-top: 30px; margin-bottom: 30px; 
+         <div class="media" style="color: black; width: 80%; margin-left: 10%; margin-right: 10%; margin-top: 30px; margin-bottom: 30px; 
                                     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
-            <img src={{ item.image }} class="align-self-center mr-3" alt="..." width="400px" style="margin: 2%;">
-            <div class="media-body">
+            <a href="{% url 'detail' item.pk %}">
+                <img src={{ item.image }} class="align-self-center mr-3" alt="..." width="400px" style="margin: 5%;">
+            </a>
+            <div class="media-body" style="margin: 3%;">
               <h3 class="mt-4">{{ item.name }}</h3>
               <p class="mb-0">{{ item.description}}</p>
               <h4><strong>Minimum Bid: ${{ item.minimum }}</strong></h4>
@@ -15,7 +17,7 @@
             </div>
             <h4 class="mr-2 mt-2">{{ item.category }}</h4>
             
-        </div></a>
+        </div>
         {% endfor %}
     
 

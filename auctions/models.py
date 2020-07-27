@@ -16,6 +16,7 @@ class Item(models.Model):
     name = models.CharField(max_length=100, blank=False)
     description = models.TextField(blank=False)
     minimum = models.IntegerField(blank=False)
+    # highest_bid = models.IntegerField(blank=False, default=0)
     # image = models.ImageField(upload_to='items', default = '../noimg.png')
     image = models.URLField()
     category = models.CharField(max_length=100, blank=True, choices=CATEGORY_CHOICES)

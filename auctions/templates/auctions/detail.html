@@ -1,22 +1,46 @@
 {% extends "auctions/layout.html" %}
 
-{% block body %}
-    <h2>{{ item.name }}</h2>
+{% block title %}{{ item.name }} {% endblock %}
 
-        <!-- {% for item in items %}
-        <div class="media" style="width: 80%; margin-left: 10%; margin-right: 10%; margin-top: 30px; margin-bottom: 30px; 
-                                    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
-            <img src={{ item.image }} class="align-self-center mr-3" alt="..." width="400px">
-            <div class="media-body">
-              <h3 class="mt-4">{{ item.name }}</h3>
-              <p class="mb-0">{{ item.description}}</p>
-              <h4><strong>Minimum Bid: ${{ item.minimum }}</strong></h4>
-            <h4><strong>Current Bid: </strong></h4>
-            </div>
-            <h4 class="mr-2 mt-2">{{ item.category }}</h4>
+{% block body %}
+<div style="margin: 2% 7% 2% 7%; ">
+  <img src={{ item.image }} width=500px style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+    <h2 class="mt-3">{{ item.name }}</h2>
+    <p>{{ item.description }}</p>
+    <span style="color: chocolate; font-size:30px;"><b>${{ item.highest_bid }}</b></span>
+</div>
+
+
+  <div class="col-lg-8 col-md-10 col-sm-12">
+      <div class="card-body">
+        <!-- <h3 class="card-title">Profile</h3> -->
+        <form method="post" novalidate>
+          {% csrf_token %}
+          
+          {% for field in form %}
+          <p>
+            {{field.label_tag}}
+            {{field}}
+
+            {% if field.help_text %}
+              <small style="color:grey">{{field.help_text}}</small>
+            {% endif %}
             
-        </div>
-        {% endfor %} -->
+            {% for error in field.errors %}
+              <p style="color:red">{{error}}</p>
+            {% endfor %}
+          </p>
+          {% endfor %}
+            <button type="submit" class="btn btn-primary">Place Bid</button>
+        </form>
+      </div>
+      <!-- <div class="card-footer text-muted text-center">
+      </div> -->
+  </div>
+
+
+
+
     
 
     

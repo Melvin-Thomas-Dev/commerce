@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.urls import reverse
 
 from .models import User, Item
+from .forms import BidForm
 
 
 
@@ -21,6 +22,8 @@ def detail_view(request, pk):
         context['item'] = item
     except Item.DoesNotExist:
         context['error'] = "The listing does not exist"
+        return render(request, "auctions/error.html", context)
+
 
     return render(request, "auctions/detail.html", context)
     
@@ -75,3 +78,58 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "auctions/register.html")
+
+
+def bid_view(request, pk):
+    context = {}
+    user = request.user
+    try:
+        item = Item.objects.get(pk=pk)
+        context['item'] = item
+    except Item.DoesNotExist:
+        # item = None
+        context['error'] = "The listing does not exist"
+        return detail_view(request, pk)
+    if request.POST:
+        form = BidForm(request.POST)
+        if form.is_valid():
+            bid = form.clean_amount()
+            context['message'] = f"succesfully placed a bid. The bid amount is {bid}"
+            return render(request, "auctions/bid.html")
+        else:
+            context['form'] = form
+    else:
+        form = BidForm()
+        context['form'] = form
+
+    return render(request, "auctions/detail.html", context)
+
+
+
+    # if request.POST:
+    #     try:
+    #         item = Item.objects.get(pk=pk)
+    #         context['item'] = item
+    #     except Item.DoesNotExist:
+    #         item = None
+    #         context['error'] = "The listing does not exist"
+    #         return detail_view(request, pk)
+        
+    #     highest_bid = item.bid.get(pk=pk).amount
+    #     bid = int(request.POST['bid'])
+    #     # highest_bid = item.highest_bid
+    #     if not bid>highest_bid:
+    #         context['message'] = f"The existing highest bid for this item is {item.bid.amount}"
+    #         return render(request, "auctions/bid.html", context)
+    #     if bid > highest_bid:
+    #         item.bid.get(pk=pk).amount = bid
+    #         context['message'] = f"You have successfully placed a Bid. The bid amount is: {bid}"
+    #         return render(request, "auctions/bid.html", context)
+    # else:
+    #     return render(request, "auctions/detail.html", context)
+
+            
+            
+        
+
+
